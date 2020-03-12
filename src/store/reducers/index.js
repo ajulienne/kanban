@@ -1,13 +1,12 @@
 import produce from "immer";
-import {
-  ADD_ISSUE,
-  ADD_CATEGORY
-} from "../actions";
+import { ADD_ISSUE, ADD_CATEGORY, MOVE_ISSUE } from "../actions";
 
-const initialState = [{
+const initialState = [
+  {
     id: 0,
     title: "Todo",
-    issues: [{
+    issues: [
+      {
         id: 0,
         title: "Drag & drop"
       },
@@ -28,15 +27,18 @@ const initialState = [{
   {
     id: 1,
     title: "Doing",
-    issues: [{
-      id: 4,
-      title: "Styling"
-    }]
+    issues: [
+      {
+        id: 4,
+        title: "Styling"
+      }
+    ]
   },
   {
     id: 2,
     title: "Done",
-    issues: [{
+    issues: [
+      {
         id: 5,
         title: "Init React app"
       },
@@ -49,7 +51,7 @@ const initialState = [{
         title: "Redux"
       }
     ]
-  },
+  }
 ];
 
 let currCategoryId = 2;
@@ -66,9 +68,7 @@ const kanbanReducer = (state = initialState, action) => {
       currCategoryId++;
       return [...state, newCategory];
     case ADD_ISSUE:
-      const {
-        title, categoryId
-      } = action.payload;
+      const { title, categoryId } = action.payload;
       const newIssue = {
         id: currIssueId + 1,
         title
@@ -78,8 +78,20 @@ const kanbanReducer = (state = initialState, action) => {
       const newState = produce(state, draft => {
         draft.find(c => c.id === categoryId).issues.push(newIssue);
       });
-
       return newState;
+    case MOVE_ISSUE:
+      const {
+        oldCategoryId,
+        newCategoryId,
+        oldPosition,
+        newPosition
+      } = action.payload;
+      const tempState = produce(state, draft => {
+        const issue = draft[oldCategoryId].issues[oldPosition];
+        draft[oldCategoryId].issues.splice(oldPosition, 1); // removing the issue from the source
+        draft[newCategoryId].issues.splice(newPosition, 0, issue); // adding the issue to the new position in the destination
+      });
+      return tempState;
     default:
       return state;
   }
