@@ -1,0 +1,28 @@
+.add-button {
+  button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    color: #999;
+  }
+
+  form {
+    textarea {
+      width: 100%;
+      resize: none;
+      box-sizing: border-box;
+      outline: none;
+      border: 1px solid teal;
+      padding: 10px;
+      border-radius: 3px;
+    }
+
+    button {
+      background-color: green;
+      border-radius: 3px;
+      padding: 5px 10px;
+      color: white;
+    }
+  }
+}
