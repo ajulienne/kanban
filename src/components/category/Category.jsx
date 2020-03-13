@@ -7,7 +7,7 @@ import { Droppable } from "react-beautiful-dnd";
 export const Category = ({ id, title, issues }) => {
   return (
     <div className="category-wrapper">
-      <Droppable droppableId={String(id)}>
+      <Droppable droppableId={`category-${id}`}>
         {provided => (
           <div
             className="category"

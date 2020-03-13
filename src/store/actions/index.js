@@ -20,6 +20,7 @@ export const addIssue = (title, categoryId) => {
 };
 
 export const moveIssue = (
+  draggableId,
   oldCategoryId,
   newCategoryId,
   oldPosition,
@@ -28,6 +29,7 @@ export const moveIssue = (
   return {
     type: MOVE_ISSUE,
     payload: {
+      draggableId,
       oldCategoryId,
       newCategoryId,
       oldPosition,

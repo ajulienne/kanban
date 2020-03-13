@@ -4,7 +4,7 @@ import { Draggable } from "react-beautiful-dnd";
 
 export const Issue = ({ id, title, index }) => {
   return (
-    <Draggable draggableId={String(id)} index={index}>
+    <Draggable draggableId={`issue-${id}`} index={index}>
       {provided => (
         <div
           {...provided.draggableProps}
@@ -12,7 +12,7 @@ export const Issue = ({ id, title, index }) => {
           ref={provided.innerRef}
           className="issue"
         >
-          {title}
+          {title} - <a href="#">Edit</a>
         </div>
       )}
     </Draggable>

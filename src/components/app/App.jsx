@@ -6,8 +6,8 @@ import "./App.scss";
 import { DragDropContext } from "react-beautiful-dnd";
 import { moveIssue } from "../../store/actions";
 
-function App({ kanban, moveIssue }) {
-  const onDragEnd = ({ destination, source }) => {
+function App({ categories, issues, moveIssue }) {
+  const onDragEnd = ({ draggableId, destination, source }) => {
     // Stop if the element is dropped in a non droppable element
     if (!destination) {
       return;
@@ -21,25 +21,32 @@ function App({ kanban, moveIssue }) {
       return;
     }
 
-    // Dispatch the move to the store
-    moveIssue(
-      source.droppableId,
-      destination.droppableId,
-      source.index,
-      destination.index
-    );
+    if (draggableId.startsWith("issue")) {
+      // Dispatch the move to the store
+      moveIssue(
+        +draggableId.substring(6),
+        +source.droppableId.substring(9),
+        +destination.droppableId.substring(9),
+        +source.index,
+        +destination.index
+      );
+    }
   };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="App">
-        {kanban.map(c => {
+        {categories.map(c => {
           return (
             <Category
               key={`cat-${c.id}`}
               id={c.id}
               title={c.title}
-              issues={c.issues}
+              issues={issues
+                .filter(i => i.categoryId === c.id)
+                .sort((a, b) =>
+                  a.index < b.index ? -1 : a.index > b.index ? 1 : 0
+                )}
             />
           );
         })}
@@ -52,13 +59,26 @@ function App({ kanban, moveIssue }) {
 }
 
 export const mapDispatchToProps = {
-  moveIssue: (oldCategoryId, newCategoryId, oldPosition, newPosition) =>
-    moveIssue(oldCategoryId, newCategoryId, oldPosition, newPosition)
+  moveIssue: (
+    draggableId,
+    oldCategoryId,
+    newCategoryId,
+    oldPosition,
+    newPosition
+  ) =>
+    moveIssue(
+      draggableId,
+      oldCategoryId,
+      newCategoryId,
+      oldPosition,
+      newPosition
+    )
 };
 
 export const mapStateToProps = state => {
   return {
-    kanban: state
+    categories: state.categories,
+    issues: state.issues
   };
 };
 
