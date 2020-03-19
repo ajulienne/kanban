@@ -1,9 +1,17 @@
 import produce from "immer";
-import { ADD_ISSUE, ADD_CATEGORY, MOVE_ISSUE, MOVE_CATEGORY } from "../actions";
+import {
+  ADD_ISSUE,
+  ADD_CATEGORY,
+  MOVE_ISSUE,
+  MOVE_CATEGORY,
+  DELETE_ISSUE,
+  DELETE_CATEGORY,
+  EDIT_CATEGORY,
+  EDIT_ISSUE
+} from "../actions";
 
 const initialState = {
-  categories: [
-    {
+  categories: [{
       id: 0,
       title: "Todo",
       index: 0
@@ -19,8 +27,7 @@ const initialState = {
       index: 2
     }
   ],
-  issues: [
-    {
+  issues: [{
       id: 0,
       title: "Drag & drop",
       description: "Lorem ipsum dolor sit amet.",
@@ -169,6 +176,57 @@ const kanbanReducer = (state = initialState, action) => {
           action.payload.newPosition;
       });
       return movedCategoryState;
+    case DELETE_CATEGORY:
+      return {
+        ...state,
+        categories: state.categories.filter(c => c.id !== action.payload), // Filter out the category
+          issues: state.issues.filter(i => i.categoryId !== action.payload) // Filter out all the issues in that category
+      };
+    case DELETE_ISSUE:
+      const {
+        categoryId, index
+      } = state.issues.find(
+        i => i.id === action.payload
+      );
+
+      const newIssues = produce(state.issues, draft => {
+        draft.map(i => {
+          if (i.categoryId === categoryId && i.index > index) {
+            i.index -= 1; // Move down all issues in the same category located after the issue
+          }
+          return i;
+        });
+      });
+
+      return {
+        ...state,
+        issues: newIssues.filter(i => i.id !== action.payload)
+      };
+    case EDIT_CATEGORY:
+      return {
+        ...state,
+        categories: state.categories.map(c =>
+          c.id === action.payload.id ?
+          {
+            ...c,
+            title: action.payload.title
+          } :
+          c
+        )
+      };
+    case EDIT_ISSUE:
+      return {
+        ...state,
+        issues: state.issues.map(i =>
+          i.id === action.payload.id ?
+          {
+            ...i,
+            title: action.payload.title,
+            description: action.payload.description
+          } :
+          i
+        )
+      };
     default:
       return state;
   }

@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { addCategory, addIssue } from "../../../store/actions";
 import "./AddButton.scss";
 import TextareaAutosize from "react-textarea-autosize";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const AddButton = ({ category, categoryId, addCategory, addIssue }) => {
   const label = category ? "Add Issue" : "Add Category";
@@ -31,14 +33,14 @@ const AddButton = ({ category, categoryId, addCategory, addIssue }) => {
             setText(event.target.value);
           }}
           placeholder={placeholder}
-        >
-          {text}
-        </TextareaAutosize>
+          value={text}
+        />
         <br />
         <button
           onMouseDown={() => {
             category ? addIssue(text, categoryId) : addCategory(text);
             toggleEdit();
+            setText("");
           }}
         >
           Add
@@ -49,7 +51,14 @@ const AddButton = ({ category, categoryId, addCategory, addIssue }) => {
 
   return (
     <div className="add-button">
-      {edit ? renderForm() : <button onClick={toggleEdit}>{label}</button>}
+      {edit ? (
+        renderForm()
+      ) : (
+        <button onClick={toggleEdit}>
+          <FontAwesomeIcon icon={faPlus} />
+          &nbsp;{label}
+        </button>
+      )}
     </div>
   );
 };
