@@ -1,6 +1,7 @@
 export const ADD_CATEGORY = "ADD_CATEGORY";
 export const ADD_ISSUE = "ADD_ISSUE";
 export const MOVE_ISSUE = "MOVE_ISSUE";
+export const MOVE_CATEGORY = "MOVE_CATEGORY";
 
 export const addCategory = title => {
   return {
@@ -35,5 +36,12 @@ export const moveIssue = (
       oldPosition,
       newPosition
     }
+  };
+};
+
+export const moveCategory = (draggableId, oldPosition, newPosition) => {
+  return {
+    type: MOVE_CATEGORY,
+    payload: { draggableId, oldPosition, newPosition }
   };
 };

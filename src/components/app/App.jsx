@@ -1,13 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Category } from "../category/Category";
-import AddButton from "../shared/add-button/AddButton";
 import "./App.scss";
 import { DragDropContext } from "react-beautiful-dnd";
-import { moveIssue } from "../../store/actions";
+import { moveIssue, moveCategory } from "../../store/actions";
+import { Board } from "../board/Board";
+import produce from "immer";
 
-function App({ categories, issues, moveIssue }) {
-  const onDragEnd = ({ draggableId, destination, source }) => {
+function App({ categories, issues, moveIssue, moveCategory }) {
+  const onDragEnd = ({ draggableId, destination, source, type }) => {
     // Stop if the element is dropped in a non droppable element
     if (!destination) {
       return;
@@ -21,7 +21,7 @@ function App({ categories, issues, moveIssue }) {
       return;
     }
 
-    if (draggableId.startsWith("issue")) {
+    if (type === "issue") {
       // Dispatch the move to the store
       moveIssue(
         +draggableId.substring(6),
@@ -31,29 +31,26 @@ function App({ categories, issues, moveIssue }) {
         +destination.index
       );
     }
+
+    if (type === "category") {
+      moveCategory(
+        +draggableId.substring(9),
+        +source.index,
+        +destination.index
+      );
+    }
   };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="App">
-        {categories.map(c => {
-          return (
-            <Category
-              key={`cat-${c.id}`}
-              id={c.id}
-              title={c.title}
-              issues={issues
-                .filter(i => i.categoryId === c.id)
-                .sort((a, b) =>
-                  a.index < b.index ? -1 : a.index > b.index ? 1 : 0
-                )}
-            />
+      <Board
+        categories={produce(categories, draft => {
+          draft.sort((a, b) =>
+            a.index > b.index ? 1 : a.index < b.index ? -1 : 0
           );
         })}
-        <div className="new-category">
-          <AddButton />
-        </div>
-      </div>
+        issues={issues}
+      />
     </DragDropContext>
   );
 }
@@ -72,7 +69,9 @@ export const mapDispatchToProps = {
       newCategoryId,
       oldPosition,
       newPosition
-    )
+    ),
+  moveCategory: (draggableId, oldPosition, newPosition) =>
+    moveCategory(draggableId, oldPosition, newPosition)
 };
 
 export const mapStateToProps = state => {

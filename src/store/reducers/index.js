@@ -1,19 +1,22 @@
 import produce from "immer";
-import { ADD_ISSUE, ADD_CATEGORY, MOVE_ISSUE } from "../actions";
+import { ADD_ISSUE, ADD_CATEGORY, MOVE_ISSUE, MOVE_CATEGORY } from "../actions";
 
 const initialState = {
   categories: [
     {
       id: 0,
-      title: "Todo"
+      title: "Todo",
+      index: 0
     },
     {
       id: 1,
-      title: "Doing"
+      title: "Doing",
+      index: 1
     },
     {
       id: 2,
-      title: "Done"
+      title: "Done",
+      index: 2
     }
   ],
   issues: [
@@ -85,12 +88,12 @@ const kanbanReducer = (state = initialState, action) => {
       const newCategory = {
         id: currCategoryId + 1,
         title: action.payload,
-        issues: []
+        index: currCategoryId + 1
       };
       currCategoryId++;
       return {
         ...state,
-        category: [...state.category, newCategory]
+        categories: [...state.categories, newCategory]
       };
     case ADD_ISSUE:
       const newIssue = {
@@ -138,6 +141,34 @@ const kanbanReducer = (state = initialState, action) => {
         draft.issues.find(i => i.id === draggableId).index = newPosition;
       });
       return tempState;
+    case MOVE_CATEGORY:
+      const movedCategoryState = produce(state, draft => {
+        draft.categories
+          .filter(c => c.id !== action.payload.draggableId)
+          .map(c => {
+            if (action.payload.newPosition > action.payload.oldPosition) {
+              // if moving up : move down all between old and new
+              if (
+                c.index > action.payload.oldPosition &&
+                c.index <= action.payload.newPosition
+              ) {
+                c.index -= 1;
+              }
+            } else {
+              // if moving down : move up all between old and new
+              if (
+                c.index >= action.payload.newPosition &&
+                c.index < action.payload.oldPosition
+              ) {
+                c.index += 1;
+              }
+            }
+            return c;
+          });
+        draft.categories.find(c => c.id === action.payload.draggableId).index =
+          action.payload.newPosition;
+      });
+      return movedCategoryState;
     default:
       return state;
   }
