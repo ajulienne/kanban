@@ -3,4 +3,19 @@
   padding: 10px;
   margin: 10px 0;
   border-radius: 3px;
+  display: flex;
+  justify-content: space-between;
+
+  .issue-options {
+    white-space: nowrap;
+  }
+}
+
+.close-button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 15px;
 }

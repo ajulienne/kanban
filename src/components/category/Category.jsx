@@ -37,7 +37,12 @@ export const Category = ({ id, title, issues, index, deleteCategory }) => {
                   </button>
                 </h3>
                 {issues.map((issue, index) => (
-                  <Issue key={issue.id} data={issue} index={index} />
+                  <Issue
+                    key={issue.id}
+                    data={issue}
+                    index={index}
+                    categoryTitle={title}
+                  />
                 ))}
                 {provided.placeholder}
                 <ActionButton category categoryId={id} />
