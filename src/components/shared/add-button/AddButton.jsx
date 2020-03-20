@@ -37,6 +37,7 @@ const AddButton = ({ category, categoryId, addCategory, addIssue }) => {
         />
         <br />
         <button
+          className="submit"
           onMouseDown={() => {
             category ? addIssue(text, categoryId) : addCategory(text);
             toggleEdit();

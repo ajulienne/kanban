@@ -7,7 +7,25 @@ import { Board } from "../board/Board";
 import produce from "immer";
 
 function App({ categories, issues, moveIssue, moveCategory }) {
+  const onDragStart = ({ draggableId, type }) => {
+    if (type === "issue") {
+      document
+        .getElementById(draggableId)
+        .firstElementChild.classList.add("dragging");
+    } else {
+      document.getElementById(draggableId).classList.add("dragging");
+    }
+  };
+
   const onDragEnd = ({ draggableId, destination, source, type }) => {
+    if (type === "issue") {
+      document
+        .getElementById(draggableId)
+        .firstElementChild.classList.remove("dragging");
+    } else {
+      document.getElementById(draggableId).classList.remove("dragging");
+    }
+
     // Stop if the element is dropped in a non droppable element
     if (!destination) {
       return;
@@ -42,15 +60,17 @@ function App({ categories, issues, moveIssue, moveCategory }) {
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Board
-        categories={produce(categories, draft => {
-          draft.sort((a, b) =>
-            a.index > b.index ? 1 : a.index < b.index ? -1 : 0
-          );
-        })}
-        issues={issues}
-      />
+    <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+      {categories && (
+        <Board
+          categories={produce(categories, draft => {
+            draft.sort((a, b) =>
+              a.index > b.index ? 1 : a.index < b.index ? -1 : 0
+            );
+          })}
+          issues={issues}
+        />
+      )}
     </DragDropContext>
   );
 }

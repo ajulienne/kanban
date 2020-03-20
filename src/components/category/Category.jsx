@@ -24,6 +24,7 @@ export const Category = ({ id, title, issues, index, deleteCategory }) => {
                 className="category"
                 {...provided.droppableProps}
                 ref={provided.innerRef}
+                id={`category-${id}`}
               >
                 <h3>
                   {title}

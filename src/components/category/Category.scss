@@ -4,6 +4,10 @@
   padding: 10px;
   border-radius: 3px;
 
+  &.dragging {
+    transform: rotate(2deg);
+  }
+
   h3 {
     margin: 0 0 15px 10px;
   }

@@ -5,8 +5,8 @@ import Modal from "react-modal";
 import { connect } from "react-redux";
 import { deleteIssue } from "../../store/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faPen } from "@fortawesome/free-solid-svg-icons";
-import { IssueModal } from "../issue-modal/IssueModal";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import IssueModal from "../issue-modal/IssueModal";
 
 Modal.setAppElement("#root");
 
@@ -30,20 +30,21 @@ const Issue = ({ data, index, deleteIssue, categoryTitle }) => {
             {...provided.dragHandleProps}
             ref={provided.innerRef}
             className="issue"
+            onClick={openModal}
+            id={`issue-${data.id}`}
           >
-            <div className="issue-title">{data.title}</div>
-            <div className="issue-options">
-              <button onClick={openModal} className="action">
-                <FontAwesomeIcon icon={faPen} />
-              </button>
-              <button
-                className="action"
-                onClick={() => {
-                  deleteIssue(data.id);
-                }}
-              >
-                <FontAwesomeIcon icon={faTimes} />
-              </button>
+            <div className="wrapper">
+              <div className="issue-title">{data.title}</div>
+              <div className="issue-options">
+                <button
+                  className="action"
+                  onClick={() => {
+                    deleteIssue(data.id);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faTimes} />
+                </button>
+              </div>
             </div>
           </div>
           <Modal

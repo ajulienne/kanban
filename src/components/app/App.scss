@@ -4,3 +4,41 @@
   grid-auto-flow: column;
   grid-gap: 10px;
 }
+
+form {
+  textarea {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+    resize: none;
+    box-sizing: border-box;
+    outline: none;
+    border: 1px solid teal;
+    padding: 10px;
+    border-radius: 3px;
+  }
+
+  button {
+    cursor: pointer;
+    border: none;
+    font-size: 1em;
+
+    &.submit {
+      background-color: #5aac44;
+      border-radius: 3px;
+      padding: 6px 12px;
+      color: #fff;
+      border: none;
+      box-shadow: none;
+      outline: none;
+      font-weight: normal;
+
+      &:hover {
+        background-color: #61bd4f;
+      }
+    }
+
+    &.close {
+      background: transparent;
+    }
+  }
+}

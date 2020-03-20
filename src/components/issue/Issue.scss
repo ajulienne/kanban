@@ -1,13 +1,26 @@
 .issue {
-  background-color: #fff;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 3px;
-  display: flex;
-  justify-content: space-between;
+  .wrapper {
+    background-color: #fff;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 3px;
+    display: flex;
+    justify-content: space-between;
 
-  .issue-options {
-    white-space: nowrap;
+    box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
+
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f4f5f7;
+    }
+
+    .issue-options {
+      white-space: nowrap;
+    }
+    &.dragging {
+      transform: rotate(2deg);
+    }
   }
 }
 

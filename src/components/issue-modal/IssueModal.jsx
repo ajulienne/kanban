@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faClipboardList,
-  faAlignLeft
+  faAlignLeft,
+  faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import "./IssueModal.scss";
+import { editIssue } from "../../store/actions";
+import { connect } from "react-redux";
 
-export const IssueModal = ({ issue, categoryTitle }) => {
+const IssueModal = ({ issue, categoryTitle, editIssue }) => {
+  const [isEditingDescription, setEditDescription] = useState(false);
+  const [descriptionFormValue, setDescriptionFormValue] = useState("");
+
   return (
     <>
       <div className="row">
@@ -19,12 +25,47 @@ export const IssueModal = ({ issue, categoryTitle }) => {
         <h3 className="title">Description</h3>
         <div className="description content">
           {issue.description ? (
-            issue.description
+            <p>{issue.description}</p>
+          ) : isEditingDescription ? (
+            <form>
+              <textarea
+                cols="30"
+                rows="10"
+                value={descriptionFormValue}
+                onChange={event => setDescriptionFormValue(event.target.value)}
+              ></textarea>
+              <button
+                className="submit"
+                onClick={event => {
+                  event.preventDefault();
+                  editIssue(issue.id, issue.title, descriptionFormValue);
+                }}
+              >
+                Submit
+              </button>
+              <button
+                className="close"
+                onClick={() => setEditDescription(false)}
+              >
+                <FontAwesomeIcon icon={faTimes} size="lg" />
+              </button>
+            </form>
           ) : (
-            <button className="description-button">Add a description...</button>
+            <button
+              className="description-button"
+              onClick={() => setEditDescription(true)}
+            >
+              Add a description...
+            </button>
           )}
         </div>
       </div>
     </>
   );
 };
+
+const mapDispatchToProps = {
+  editIssue: (id, title, description) => editIssue(id, title, description)
+};
+
+export default connect(null, mapDispatchToProps)(IssueModal);
