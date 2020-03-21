@@ -1,5 +1,5 @@
 import React from "react";
-import { Category } from "../category/Category";
+import Category from "../category/Category";
 import { Droppable } from "react-beautiful-dnd";
 import AddButton from "../shared/add-button/AddButton";
 

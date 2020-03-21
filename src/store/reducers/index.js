@@ -31,7 +31,6 @@ const kanbanReducer = (state = initialState, action) => {
         categories: [...state.categories, newCategory]
       };
     case ADD_ISSUE:
-      console.log(action.payload);
       const newIssue = {
         ...action.payload,
         description: ""
@@ -55,7 +54,6 @@ const kanbanReducer = (state = initialState, action) => {
           .filter(i => i.categoryId === oldCategoryId)
           .map(i => {
             if (i.index > oldPosition) {
-              console.log(`${i.index} UP`);
               i.index -= 1;
               updateIssue(i.id, { index: i.index });
             }
@@ -67,7 +65,6 @@ const kanbanReducer = (state = initialState, action) => {
           .filter(i => i.categoryId === newCategoryId)
           .map(i => {
             if (i.index >= newPosition) {
-              console.log(`${i.index} UP`);
               i.index += 1;
               updateIssue(i.id, { index: i.index });
             }

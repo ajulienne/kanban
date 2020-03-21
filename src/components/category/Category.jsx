@@ -8,22 +8,22 @@ import { deleteCategory } from "../../store/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
-export const Category = ({ id, title, issues, index, deleteCategory }) => {
+const Category = ({ id, title, issues, index, deleteCategory }) => {
   return (
     <Draggable draggableId={`category-${id}`} index={index}>
-      {provided => (
+      {providedDrag => (
         <div
           className="category-wrapper"
-          {...provided.draggableProps}
-          ref={provided.innerRef}
-          {...provided.dragHandleProps}
+          {...providedDrag.draggableProps}
+          ref={providedDrag.innerRef}
         >
           <Droppable droppableId={`category-${id}`} type="issue">
-            {provided => (
+            {providedDrop => (
               <div
+                {...providedDrag.dragHandleProps}
                 className="category"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
+                {...providedDrop.droppableProps}
+                ref={providedDrop.innerRef}
                 id={`category-${id}`}
               >
                 <h3>
@@ -45,7 +45,7 @@ export const Category = ({ id, title, issues, index, deleteCategory }) => {
                     categoryTitle={title}
                   />
                 ))}
-                {provided.placeholder}
+                {providedDrop.placeholder}
                 <ActionButton category categoryId={id} />
               </div>
             )}
