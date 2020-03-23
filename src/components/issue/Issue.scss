@@ -1,7 +1,7 @@
 .issue {
   .wrapper {
     background-color: #fff;
-    padding: 10px;
+    padding: 2px;
     margin: 10px 0;
     border-radius: 3px;
     display: grid;
@@ -13,6 +13,7 @@
     cursor: pointer;
 
     .issue-title {
+      padding: 8px 0 8px 8px;
       .indicators {
         padding-top: 5px;
       }
@@ -23,8 +24,8 @@
     }
 
     .issue-options {
+      padding: 8px;
       z-index: 50;
-      white-space: nowrap;
     }
     &.dragging {
       transform: rotate(2deg);

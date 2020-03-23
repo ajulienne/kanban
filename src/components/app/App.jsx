@@ -6,6 +6,9 @@ import { moveIssue, moveCategory } from "../../store/actions";
 import { Board } from "../board/Board";
 import produce from "immer";
 
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import Header from "../header/Header";
+
 function App({ categories, issues, moveIssue, moveCategory }) {
   const onDragStart = ({ draggableId, type }) => {
     if (type === "issue") {
@@ -60,18 +63,28 @@ function App({ categories, issues, moveIssue, moveCategory }) {
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-      {categories && (
-        <Board
-          categories={produce(categories, draft => {
-            draft.sort((a, b) =>
-              a.index > b.index ? 1 : a.index < b.index ? -1 : 0
-            );
-          })}
-          issues={issues}
-        />
-      )}
-    </DragDropContext>
+    <BrowserRouter>
+      <Header />
+      <Switch>
+        <Route path="/board/:id">
+          <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+            {categories && (
+              <Board
+                categories={produce(categories, draft => {
+                  draft.sort((a, b) =>
+                    a.index > b.index ? 1 : a.index < b.index ? -1 : 0
+                  );
+                })}
+                issues={issues}
+              />
+            )}
+          </DragDropContext>
+        </Route>
+        <Route exact path="/">
+          <Redirect to="/board/1234" />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   );
 }
 

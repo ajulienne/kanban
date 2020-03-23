@@ -57,7 +57,11 @@ const Issue = ({ data, index, deleteIssue, categoryTitle }) => {
             id={`issue-${data.id}`}
           >
             <div className="wrapper">
-              <div className="issue-title" onClick={openModal}>
+              <div
+                className="issue-title"
+                onClick={openModal}
+                title="Click to see the details of this issue"
+              >
                 {data.title}
                 {data.description && (
                   <div className="indicators">
@@ -67,6 +71,7 @@ const Issue = ({ data, index, deleteIssue, categoryTitle }) => {
               </div>
               <div className="issue-options">
                 <button
+                  title="Delete this issue"
                   className="action"
                   onClick={() => {
                     deleteIssue(data.id);

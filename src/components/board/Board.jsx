@@ -2,6 +2,7 @@ import React from "react";
 import Category from "../category/Category";
 import { Droppable } from "react-beautiful-dnd";
 import AddButton from "../shared/add-button/AddButton";
+import "./Board.scss";
 
 export const Board = ({ categories, issues }) => {
   return (
@@ -12,7 +13,7 @@ export const Board = ({ categories, issues }) => {
     >
       {provided => (
         <div
-          className="App"
+          className="Board"
           {...provided.droppableProps}
           ref={provided.innerRef}
         >

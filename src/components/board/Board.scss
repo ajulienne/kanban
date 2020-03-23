@@ -1,0 +1,7 @@
+.Board {
+  display: grid;
+  grid-auto-columns: 275px;
+  grid-auto-flow: column;
+  grid-gap: 10px;
+  padding: 10px;
+}
