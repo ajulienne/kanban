@@ -27,6 +27,14 @@ button {
     &:hover {
       background-color: #61bd4f;
     }
+
+    &:disabled {
+      background-color: #f4f5f7;
+      box-shadow: none;
+      border: none;
+      color: #a5adba;
+      cursor: not-allowed;
+    }
   }
 
   &.close {

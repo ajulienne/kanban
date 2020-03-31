@@ -13,12 +13,17 @@ const Board = ({ boards, categories, issues }) => {
 
   const dispatch = useDispatch();
 
-  let color = "#ccc"; // default background-color
-
   if (boards && boards.length) {
-    color = boards.find(b => {
-      return b.id === +id;
-    }).color;
+    // Set the color of the background and the header according to the board color
+    const color =
+      boards.find(b => {
+        return b.id === +id;
+      }).color || "#ccc";
+    document.body.style = "background-color: " + color;
+    const header = document.getElementById("header");
+    if (header) {
+      header.style = "background-color: rgba(0,0,0,.15)";
+    }
   }
 
   useEffect(() => {
@@ -36,7 +41,6 @@ const Board = ({ boards, categories, issues }) => {
           className="Board"
           {...provided.droppableProps}
           ref={provided.innerRef}
-          style={{ backgroundColor: color }}
         >
           {categories.map((c, i) => {
             return (

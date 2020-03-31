@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { addCategory, addIssue } from "../../../store/actions";
 import "./AddButton.scss";
 import TextareaAutosize from "react-textarea-autosize";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { useClickOutside } from "../hooks/useClickOutside";
 
 const AddButton = ({
   category,
@@ -19,26 +20,7 @@ const AddButton = ({
   const [edit, setEdit] = useState(false); // Flag to display or not the form
   const [text, setText] = useState(); // Value of the input
 
-  const wrapperRef = useRef(null); // Ref of the form
-
-  /**
-   * Hide the form when clicked outside of it
-   * @param event the click
-   */
-  function handleClickOutside(event) {
-    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-      setEdit(false);
-    }
-  }
-
-  useEffect(() => {
-    // Bind the event listener
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  });
+  const wrapperRef = useClickOutside(() => setEdit(false));
 
   /**
    * Close of open the form

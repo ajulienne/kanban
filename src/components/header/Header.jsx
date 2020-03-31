@@ -11,7 +11,7 @@ import "./Header.scss";
 
 const Header = props => {
   return (
-    <header>
+    <header id="header">
       <div id="navigation">
         <Link to="/" className="button" title="Home">
           <FontAwesomeIcon icon={faHome} size="lg" />
