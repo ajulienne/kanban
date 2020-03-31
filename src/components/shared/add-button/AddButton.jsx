@@ -6,7 +6,13 @@ import TextareaAutosize from "react-textarea-autosize";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const AddButton = ({ category, categoryId, addCategory, addIssue }) => {
+const AddButton = ({
+  category,
+  categoryId,
+  boardId,
+  addCategory,
+  addIssue
+}) => {
   const label = category ? "Add Issue" : "Add Category";
   const placeholder = category ? "Issue text" : "Category name";
 
@@ -62,7 +68,7 @@ const AddButton = ({ category, categoryId, addCategory, addIssue }) => {
         <button
           className="submit"
           onMouseDown={() => {
-            category ? addIssue(text, categoryId) : addCategory(text);
+            category ? addIssue(text, categoryId) : addCategory(text, boardId);
             setText("");
           }}
         >
@@ -93,7 +99,7 @@ const AddButton = ({ category, categoryId, addCategory, addIssue }) => {
 };
 
 export const mapDispatchToProps = {
-  addCategory: title => addCategory(title),
+  addCategory: (title, boardId) => addCategory(title, boardId),
   addIssue: (title, categoryId) => addIssue(title, categoryId)
 };
 

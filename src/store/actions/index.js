@@ -5,34 +5,59 @@ import {
   createIssue,
   deleteIssueDb,
   deleteCategoryDb,
-  updateIssue
+  updateIssue,
+  getBoards,
+  createBoard,
+  updateBoard,
+  updateCategory
 } from "../../db/services";
 
+export const FETCH_BOARDS = "FETCH_BOARDS";
+export const RESET_BOARDS = "RESET_BOARDS";
 export const INIT_BOARD = "INIT_BOARD";
 export const ADD_CATEGORY = "ADD_CATEGORY";
 export const ADD_ISSUE = "ADD_ISSUE";
+export const ADD_BOARD = "ADD_BOARD";
 export const MOVE_ISSUE = "MOVE_ISSUE";
 export const MOVE_CATEGORY = "MOVE_CATEGORY";
+export const MOVE_BOARD = "MOVE_BOARD";
 export const DELETE_ISSUE = "DELETE_ISSUE";
 export const DELETE_CATEGORY = "DELETE_CATEGORY";
+export const DELETE_BOARD = "DELETE_BOARD";
 export const EDIT_ISSUE = "EDIT_ISSUE";
 export const EDIT_CATEGORY = "EDIT_CATEGORY";
+export const EDIT_BOARD = "EDIT_BOARD";
 
-export const initBoard = () => async dispatch => {
+export const fetchBoards = () => async dispatch => {
+  const boards = await getBoards();
+  dispatch({
+    type: FETCH_BOARDS,
+    payload: boards
+  });
+};
+
+export const resetBoards = () => ({
+  type: RESET_BOARDS
+});
+
+export const initBoard = boardId => async dispatch => {
+  const categories = await getCategories(boardId);
+  const catId = categories.map(c => c.id);
+  const issues = await getIssues(catId);
   dispatch({
     type: INIT_BOARD,
     payload: {
-      categories: await getCategories(),
-      issues: await getIssues()
+      categories,
+      issues
     }
   });
 };
 
-export const addCategory = title => async dispatch => {
-  const { id, index } = await createCategory(title);
+export const addCategory = (title, boardId) => async dispatch => {
+  const { id, index } = await createCategory(title, boardId);
   dispatch({
     type: ADD_CATEGORY,
-    payload: { id, title, index }
+    payload: { id, title, index, boardId }
   });
 };
 
@@ -45,6 +70,18 @@ export const addIssue = (title, categoryId) => async dispatch => {
       title,
       categoryId,
       index
+    }
+  });
+};
+
+export const addBoard = (title, color) => async dispatch => {
+  const id = await createBoard(title, color);
+  dispatch({
+    type: ADD_BOARD,
+    payload: {
+      id,
+      title,
+      color
     }
   });
 };
@@ -95,6 +132,14 @@ export const deleteCategory = categoryId => async dispatch => {
   });
 };
 
+export const deleteBoard = boardId => async dispatch => {
+  await deleteBoard(boardId);
+  dispatch({
+    type: DELETE_BOARD,
+    payload: boardId
+  });
+};
+
 export const editIssue = (id, title, description) => async dispatch => {
   await updateIssue(id, { title, description });
   dispatch({
@@ -107,7 +152,8 @@ export const editIssue = (id, title, description) => async dispatch => {
   });
 };
 
-export const editCategory = (id, title) => {
+export const editCategory = (id, title) => async dispatch => {
+  await updateCategory(id, { title });
   return {
     type: EDIT_CATEGORY,
     payload: {
@@ -115,4 +161,16 @@ export const editCategory = (id, title) => {
       title
     }
   };
+};
+
+export const editBoard = (id, title, color) => async dispatch => {
+  await updateBoard(id, { title, color });
+  dispatch({
+    type: EDIT_BOARD,
+    payload: {
+      id,
+      title,
+      color
+    }
+  });
 };

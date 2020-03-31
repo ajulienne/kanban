@@ -32,7 +32,7 @@ const Header = props => {
         <button className="button notifications" title="Notifications">
           <FontAwesomeIcon icon={faBell} size="lg" />
         </button>
-        <button class="avatar" title="User settings">
+        <button className="avatar" title="User settings">
           &nbsp;
         </button>
       </div>

@@ -5,9 +5,9 @@ import App from "./components/app/App";
 
 import { store } from "./store";
 import { Provider } from "react-redux";
-import { initBoard } from "./store/actions";
+import { fetchBoards } from "./store/actions";
 
-store.dispatch(initBoard());
+store.dispatch(fetchBoards());
 
 ReactDOM.render(
   <Provider store={store}>

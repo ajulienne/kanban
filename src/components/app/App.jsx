@@ -3,13 +3,14 @@ import { connect } from "react-redux";
 import "./App.scss";
 import { DragDropContext } from "react-beautiful-dnd";
 import { moveIssue, moveCategory } from "../../store/actions";
-import { Board } from "../board/Board";
+import Board from "../board/Board";
 import produce from "immer";
 
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Header from "../header/Header";
+import BoardsList from "../boards-list/BoardsList";
 
-function App({ categories, issues, moveIssue, moveCategory }) {
+function App({ categories, issues, boards, moveIssue, moveCategory }) {
   const onDragStart = ({ draggableId, type }) => {
     if (type === "issue") {
       document
@@ -81,7 +82,7 @@ function App({ categories, issues, moveIssue, moveCategory }) {
           </DragDropContext>
         </Route>
         <Route exact path="/">
-          <Redirect to="/board/1234" />
+          <BoardsList boards={boards} />
         </Route>
       </Switch>
     </BrowserRouter>
@@ -110,7 +111,8 @@ export const mapDispatchToProps = {
 export const mapStateToProps = state => {
   return {
     categories: state.categories,
-    issues: state.issues
+    issues: state.issues,
+    boards: state.boards
   };
 };
 

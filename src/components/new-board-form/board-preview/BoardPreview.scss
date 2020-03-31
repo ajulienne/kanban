@@ -1,0 +1,37 @@
+.board-preview {
+  box-sizing: border-box;
+  height: 100px;
+  margin: 0;
+  padding: 10px 10px 10px 10px;
+  position: relative;
+  width: 296px;
+  border-radius: 3px;
+
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: white;
+  }
+
+  input {
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.2em;
+    border-radius: 3px;
+    padding: 2px 8px;
+
+    &:hover {
+      background-color: hsla(0, 0%, 100%, 0.15);
+    }
+
+    &:focus {
+      background-color: hsla(0, 0%, 100%, 0.3);
+    }
+  }
+}

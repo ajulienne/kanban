@@ -1,12 +1,25 @@
 import db from ".";
 
-export const getCategories = async () => {
-  const data = await db.categories.toArray();
+export const getBoards = async () => {
+  const data = await db.boards.toArray();
   return data;
 };
 
-export const getIssues = async () => {
-  const data = await db.issues.toArray();
+/**
+ * return all categories of a board
+ * @param {*} boardId
+ */
+export const getCategories = async boardId => {
+  const data = await db.categories.where({ boardId }).toArray();
+  return data;
+};
+
+/** Return all issues of the corresponding categories */
+export const getIssues = async categoriesId => {
+  const data = await db.issues
+    .where("categoryId")
+    .anyOf(categoriesId)
+    .toArray();
   return data;
 };
 
@@ -24,11 +37,16 @@ export const createIssue = async (title, description, categoryId) => {
   };
 };
 
-export const createCategory = async title => {
+export const createCategory = async (title, boardId) => {
   const count = await db.categories.count();
-  const id = await db.categories.add({ title, index: count });
+  const id = await db.categories.add({ title, index: count, boardId });
 
   return { id, index: count };
+};
+
+export const createBoard = async (title, color) => {
+  const id = await db.boards.add({ title, color });
+  return id;
 };
 
 export const deleteIssueDb = async id => {
@@ -39,10 +57,18 @@ export const deleteCategoryDb = async id => {
   await db.categories.delete(id);
 };
 
+export const deleteBoardDb = async id => {
+  await db.boards.delete(id);
+};
+
 export const updateIssue = async (id, props) => {
   await db.issues.update(id, props);
 };
 
 export const updateCategory = async (id, props) => {
   await db.categories.update(id, props);
+};
+
+export const updateBoard = async (id, props) => {
+  await db.boards.update(id, props);
 };

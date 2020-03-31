@@ -8,19 +8,37 @@ import {
   DELETE_CATEGORY,
   EDIT_CATEGORY,
   EDIT_ISSUE,
-  INIT_BOARD
+  INIT_BOARD,
+  FETCH_BOARDS,
+  ADD_BOARD,
+  DELETE_BOARD,
+  EDIT_BOARD,
+  RESET_BOARDS
 } from "../actions";
 import { updateIssue, updateCategory } from "../../db/services";
 
 const initialState = {
   categories: [],
-  issues: []
+  issues: [],
+  boards: []
 };
 
 const kanbanReducer = (state = initialState, action) => {
   switch (action.type) {
+    case FETCH_BOARDS:
+      return {
+        ...state,
+        boards: action.payload
+      };
+    case RESET_BOARDS:
+      return {
+        ...state,
+        issues: [],
+        categories: []
+      };
     case INIT_BOARD:
       return {
+        ...state,
         categories: action.payload.categories,
         issues: action.payload.issues
       };
@@ -38,6 +56,11 @@ const kanbanReducer = (state = initialState, action) => {
       return {
         ...state,
         issues: [...state.issues, newIssue]
+      };
+    case ADD_BOARD:
+      return {
+        ...state,
+        boards: [...state.boards, action.payload]
       };
     case MOVE_ISSUE:
       const {
@@ -137,6 +160,11 @@ const kanbanReducer = (state = initialState, action) => {
         ...state,
         issues: newIssues.filter(i => i.id !== action.payload)
       };
+    case DELETE_BOARD:
+      return {
+        ...state,
+        boards: state.filter(b => b.id !== action.payload)
+      };
     case EDIT_CATEGORY:
       return {
         ...state,
@@ -160,6 +188,15 @@ const kanbanReducer = (state = initialState, action) => {
                 description: action.payload.description
               }
             : i
+        )
+      };
+    case EDIT_BOARD:
+      return {
+        ...state,
+        boards: state.boards.map(b =>
+          b.id === action.payload.id
+            ? { ...b, title: action.payload.title, color: action.payload.color }
+            : b
         )
       };
     default:
