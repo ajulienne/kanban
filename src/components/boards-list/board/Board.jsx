@@ -1,11 +1,11 @@
 import React from "react";
-import Category from "../category/Category";
+import Category from "./category/Category";
 import { Droppable } from "react-beautiful-dnd";
-import AddButton from "../shared/add-button/AddButton";
+import AddButton from "../../shared/add-button/AddButton";
 import "./Board.scss";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { initBoard } from "../../store/actions";
+import { initBoard } from "../../../store/actions";
 import { useEffect } from "react";
 
 const Board = ({ categories, issues }) => {
@@ -16,6 +16,7 @@ const Board = ({ categories, issues }) => {
 
   if (board) {
     // Set the color of the background and the header according to the board color
+    console.log(board);
     const color = board.color || "#ccc";
     document.body.style = "background-color: " + color;
     const header = document.getElementById("header");

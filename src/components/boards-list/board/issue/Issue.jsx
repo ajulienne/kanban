@@ -3,10 +3,10 @@ import "./Issue.scss";
 import { Draggable } from "react-beautiful-dnd";
 import Modal from "react-modal";
 import { useDispatch } from "react-redux";
-import { deleteIssue } from "../../store/actions";
+import { deleteIssue } from "../../../../store/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faAlignLeft } from "@fortawesome/free-solid-svg-icons";
-import IssueModal from "../issue-modal/IssueModal";
+import IssueModal from "./issue-modal/IssueModal";
 
 Modal.setAppElement("#root");
 

@@ -6,7 +6,7 @@ import {
   faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import "./IssueModal.scss";
-import { editIssue } from "../../store/actions";
+import { editIssue } from "../../../../../store/actions";
 import { useDispatch } from "react-redux";
 import TextareaAutosize from "react-textarea-autosize";
 import ReactMarkdown from "react-markdown";

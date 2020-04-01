@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./App.scss";
 import { DragDropContext } from "react-beautiful-dnd";
 import { moveIssue, moveCategory } from "../../store/actions";
-import Board from "../board/Board";
+import Board from "../boards-list/board/Board";
 import produce from "immer";
 
 import { BrowserRouter, Switch, Route } from "react-router-dom";

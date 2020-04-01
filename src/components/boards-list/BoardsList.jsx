@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { resetBoards } from "../../store/actions";
-import NewBoardForm from "../new-board/new-board-form/NewBoardForm";
+import NewBoardForm from "./new-board/new-board-form/NewBoardForm";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";

@@ -3,11 +3,11 @@ import { useState } from "react";
 import "./NewBoardForm.scss";
 import ColorRadio from "./color-radio/ColorRadio";
 import BoardPreview from "./board-preview/BoardPreview";
-import { addBoard } from "../../../store/actions";
+import { addBoard } from "../../../../store/actions";
 import { useDispatch } from "react-redux";
 
-import { Backdrop } from "../../shared/backdrop/Backdrop";
-import { useClickOutside } from "../../shared/hooks/useClickOutside";
+import { Backdrop } from "../../../shared/backdrop/Backdrop";
+import { useClickOutside } from "../../../shared/hooks/useClickOutside";
 
 const colors = [
   "0079BF",
@@ -66,7 +66,9 @@ const NewBoardForm = ({ onClose }) => {
             disabled={!isValid()}
             className="submit"
             onClick={() => {
-              dispatch(addBoard(title, color));
+              dispatch(
+                addBoard(title, color.startsWith("#") ? color : `#${color}`)
+              );
               onClose();
             }}
           >
