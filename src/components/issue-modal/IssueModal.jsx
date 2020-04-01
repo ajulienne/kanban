@@ -7,11 +7,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./IssueModal.scss";
 import { editIssue } from "../../store/actions";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import TextareaAutosize from "react-textarea-autosize";
 import ReactMarkdown from "react-markdown";
 
-const IssueModal = ({ issue, categoryTitle, editIssue }) => {
+const IssueModal = ({ issue, categoryTitle }) => {
+  const dispatch = useDispatch();
+
   const [titleValue, setTitleValue] = useState(issue.title);
 
   const [isEditingDescription, setEditDescription] = useState(false);
@@ -21,7 +23,7 @@ const IssueModal = ({ issue, categoryTitle, editIssue }) => {
 
   const saveDescription = event => {
     event.preventDefault();
-    editIssue(issue.id, titleValue, descriptionFormValue);
+    dispatch(editIssue(issue.id, titleValue, descriptionFormValue));
     setEditDescription(false);
   };
 
@@ -39,7 +41,9 @@ const IssueModal = ({ issue, categoryTitle, editIssue }) => {
             onChange={event => {
               setTitleValue(event.target.value);
               if (event.target.value) {
-                editIssue(issue.id, event.target.value, descriptionFormValue);
+                dispatch(
+                  editIssue(issue.id, event.target.value, descriptionFormValue)
+                );
               }
             }}
             placeholder="Enter a title"
@@ -88,8 +92,4 @@ const IssueModal = ({ issue, categoryTitle, editIssue }) => {
   );
 };
 
-const mapDispatchToProps = {
-  editIssue: (id, title, description) => editIssue(id, title, description)
-};
-
-export default connect(null, mapDispatchToProps)(IssueModal);
+export default IssueModal;

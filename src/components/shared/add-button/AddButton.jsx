@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addCategory, addIssue } from "../../../store/actions";
 import "./AddButton.scss";
 import TextareaAutosize from "react-textarea-autosize";
@@ -7,13 +7,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useClickOutside } from "../hooks/useClickOutside";
 
-const AddButton = ({
-  category,
-  categoryId,
-  boardId,
-  addCategory,
-  addIssue
-}) => {
+const AddButton = ({ category, categoryId, boardId }) => {
+  const dispatch = useDispatch();
+
   const label = category ? "Add Issue" : "Add Category";
   const placeholder = category ? "Issue text" : "Category name";
 
@@ -50,7 +46,9 @@ const AddButton = ({
         <button
           className="submit"
           onMouseDown={() => {
-            category ? addIssue(text, categoryId) : addCategory(text, boardId);
+            category
+              ? dispatch(addIssue(text, categoryId))
+              : dispatch(addCategory(text, boardId));
             setText("");
           }}
         >
@@ -80,9 +78,4 @@ const AddButton = ({
   );
 };
 
-export const mapDispatchToProps = {
-  addCategory: (title, boardId) => addCategory(title, boardId),
-  addIssue: (title, categoryId) => addIssue(title, categoryId)
-};
-
-export default connect(null, mapDispatchToProps)(AddButton);
+export default AddButton;

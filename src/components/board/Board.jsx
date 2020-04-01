@@ -4,21 +4,19 @@ import { Droppable } from "react-beautiful-dnd";
 import AddButton from "../shared/add-button/AddButton";
 import "./Board.scss";
 import { useParams } from "react-router-dom";
-import { useDispatch, connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { initBoard } from "../../store/actions";
 import { useEffect } from "react";
 
-const Board = ({ boards, categories, issues }) => {
+const Board = ({ categories, issues }) => {
   let { id } = useParams();
 
   const dispatch = useDispatch();
+  const board = useSelector(state => state.boards.find(b => b.id === +id));
 
-  if (boards && boards.length) {
+  if (board) {
     // Set the color of the background and the header according to the board color
-    const color =
-      boards.find(b => {
-        return b.id === +id;
-      }).color || "#ccc";
+    const color = board.color || "#ccc";
     document.body.style = "background-color: " + color;
     const header = document.getElementById("header");
     if (header) {
@@ -67,10 +65,4 @@ const Board = ({ boards, categories, issues }) => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    boards: state.boards
-  };
-};
-
-export default connect(mapStateToProps)(Board);
+export default Board;

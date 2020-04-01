@@ -4,7 +4,7 @@ import "./NewBoardForm.scss";
 import ColorRadio from "./color-radio/ColorRadio";
 import BoardPreview from "./board-preview/BoardPreview";
 import { addBoard } from "../../../store/actions";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { Backdrop } from "../../shared/backdrop/Backdrop";
 import { useClickOutside } from "../../shared/hooks/useClickOutside";
@@ -21,7 +21,9 @@ const colors = [
   "FFCC2F"
 ];
 
-const NewBoardForm = ({ addBoard, onClose }) => {
+const NewBoardForm = ({ onClose }) => {
+  const dispatch = useDispatch();
+
   const [color, setColor] = useState(colors[0]);
   const [title, setTitle] = useState();
 
@@ -64,7 +66,7 @@ const NewBoardForm = ({ addBoard, onClose }) => {
             disabled={!isValid()}
             className="submit"
             onClick={() => {
-              addBoard(title, color);
+              dispatch(addBoard(title, color));
               onClose();
             }}
           >
@@ -76,8 +78,4 @@ const NewBoardForm = ({ addBoard, onClose }) => {
   );
 };
 
-const mapDispatchToProps = {
-  addBoard: (title, color) => addBoard(title, `#${color}`)
-};
-
-export default connect(null, mapDispatchToProps)(NewBoardForm);
+export default NewBoardForm;

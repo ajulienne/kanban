@@ -3,12 +3,14 @@ import Issue from "../issue/Issue";
 import ActionButton from "../shared/add-button/AddButton";
 import "./Category.scss";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { deleteCategory } from "../../store/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const Category = ({ id, title, issues, index, deleteCategory }) => {
+const Category = ({ id, title, issues, index }) => {
+  const dispatch = useDispatch();
+
   return (
     <Draggable draggableId={`category-${id}`} index={index}>
       {providedDrag => (
@@ -31,7 +33,7 @@ const Category = ({ id, title, issues, index, deleteCategory }) => {
                   <button
                     className="action"
                     onClick={() => {
-                      deleteCategory(id);
+                      dispatch(deleteCategory(id));
                     }}
                   >
                     <FontAwesomeIcon icon={faTimes} />
@@ -56,8 +58,4 @@ const Category = ({ id, title, issues, index, deleteCategory }) => {
   );
 };
 
-const mapDispatchToProps = {
-  deleteCategory: id => deleteCategory(id)
-};
-
-export default connect(null, mapDispatchToProps)(Category);
+export default Category;
