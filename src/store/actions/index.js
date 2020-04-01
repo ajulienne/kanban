@@ -9,7 +9,8 @@ import {
   getBoards,
   createBoard,
   updateBoard,
-  updateCategory
+  updateCategory,
+  deleteBoardDb
 } from "../../db/services";
 
 export const FETCH_BOARDS = "FETCH_BOARDS";
@@ -133,7 +134,7 @@ export const deleteCategory = categoryId => async dispatch => {
 };
 
 export const deleteBoard = boardId => async dispatch => {
-  await deleteBoard(boardId);
+  await deleteBoardDb(boardId);
   dispatch({
     type: DELETE_BOARD,
     payload: boardId

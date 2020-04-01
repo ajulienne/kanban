@@ -54,10 +54,18 @@ export const deleteIssueDb = async id => {
 };
 
 export const deleteCategoryDb = async id => {
+  const issues = await db.issues.where({ categoryId: id }).toArray();
+  for (let i of issues) {
+    await deleteIssueDb(i.id);
+  }
   await db.categories.delete(id);
 };
 
 export const deleteBoardDb = async id => {
+  const categories = await db.categories.where({ boardId: `${id}` }).toArray();
+  for (let c of categories) {
+    await deleteCategoryDb(c.id);
+  }
   await db.boards.delete(id);
 };
 

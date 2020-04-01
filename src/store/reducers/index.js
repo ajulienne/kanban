@@ -163,7 +163,7 @@ const kanbanReducer = (state = initialState, action) => {
     case DELETE_BOARD:
       return {
         ...state,
-        boards: state.filter(b => b.id !== action.payload)
+        boards: state.boards.filter(b => b.id !== action.payload)
       };
     case EDIT_CATEGORY:
       return {

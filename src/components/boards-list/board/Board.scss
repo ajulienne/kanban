@@ -6,3 +6,55 @@
   grid-gap: 10px;
   padding: 10px;
 }
+
+.board-header {
+  height: 32px;
+  margin: 0;
+  padding: 8px 4px 4px 8px;
+
+  .board-title {
+    display: inline-block;
+    color: #fff;
+    height: 32px;
+    min-width: 32px;
+    line-height: 32px;
+    border: none;
+    border-radius: 3px;
+    box-sizing: border-box;
+    vertical-align: top;
+    margin-right: 8px;
+    font-size: 1.2em;
+  }
+
+  input[type="text"] {
+    display: inline-block;
+    height: 32px;
+    min-width: 32px;
+    line-height: 32px;
+    border: none;
+    border-radius: 3px;
+    box-sizing: border-box;
+    vertical-align: top;
+    margin-right: 8px;
+    padding: 4px 8px;
+    font-size: 1.2em;
+  }
+
+  button {
+    color: #fff;
+    cursor: pointer;
+    height: 32px;
+    min-width: 32px;
+    line-height: 32px;
+    border: none;
+    border-radius: 3px;
+    background-color: hsla(0, 0%, 100%, 0.24);
+    margin-right: 8px;
+    &:hover {
+      background-color: hsla(0, 0%, 100%, 0.32);
+    }
+    &:active {
+      background-color: hsla(0, 0%, 100%, 0.4);
+    }
+  }
+}
